@@ -1,0 +1,106 @@
+[
+  {
+    "component_name": "header-image-component",
+    "options": {
+      "layout": "center-focus"
+    },
+    "source": {
+      "imageData": [
+        {
+          "id": "2974",
+          "attributes": {
+            "caption": "This is the example caption",
+            "url": "https://croucher-public.s3.ap-southeast-1.amazonaws.com/main_activestorage_staging/nanocones-x4k1ipoolywdm8nw0je13ng4wqod.jpg",
+            "title": "nanocones.jpg"
+          }
+        },
+        {
+          "id": "2974",
+          "attributes": {
+            "caption": "This is the example caption",
+            "url": "https://croucher-public.s3.ap-southeast-1.amazonaws.com/main_activestorage_staging/nanocones-x4k1ipoolywdm8nw0je13ng4wqod.jpg",
+            "title": "nanocones.jpg"
+          }
+        }
+      ]
+    },
+    "position": 1
+  },
+  {
+    "component_name": "image-component",
+    "options": {
+      "layout": "full"
+    },
+    "source": {
+      "imageData": {
+        "id": "2974",
+        "attributes": {
+          "caption": "This is the example caption",
+          "url": "https://croucher-public.s3.ap-southeast-1.amazonaws.com/main_activestorage_staging/nanocones-x4k1ipoolywdm8nw0je13ng4wqod.jpg",
+          "title": "This is the example title"
+        }
+      }
+      
+    },
+    "position": 2
+  },
+  {
+    "component_name": "video-component",
+    "options": {
+      "layout": "full"
+    },
+    "source": {
+      "videoData": {
+        "id": "2974",
+        "attributes": {
+          "caption": "This is the example video caption",
+          "url": "https://croucher-public.s3.ap-southeast-1.amazonaws.com/main_activestorage_staging/nanocones-x4k1ipoolywdm8nw0je13ng4wqod.jpg",
+          "title": "This is the example video title"
+        }
+      }
+    },
+    "position": 3
+  },
+  {
+    "component_name": "quote-component",
+    "options": {
+      "layout": "full"
+    },
+    "source": {
+      "quoteData": {
+        "id": "2974",
+        "attributes": {
+          "title": "This is the example video title",
+          "caption": "This is the example video caption"
+        }
+      }
+      
+    },
+    "position": 4
+  },
+  {
+    "component_name":"accordion-component",
+    "options": {
+      "icon": "plus"
+    },
+    "source": {
+      "accordionData": [
+        {
+            "id": "2974",
+            "attributes": {
+              "title": "This is the example accordion title",
+              "detail": "This is the <strong> example </strong> accordion detail"
+            }
+        },
+        {
+            "id": "2975",
+            "attributes": {
+              "title": "This is the example accordion title 2",
+              "detail": "This is the <strong> example </strong> accordion detail 2"
+            }
+        }
+      ]
+    },
+    "position": 5
+  }
+]

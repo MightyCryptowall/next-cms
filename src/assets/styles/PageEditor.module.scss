@@ -1,0 +1,25 @@
+@import "styles/definitions.scss";
+
+.container{
+  margin-top: 3.5rem;
+  margin-inline: 10%;
+  .image-container{
+    @include nextjs-responsive-image-container;
+  }
+}
+
+.add-more-box{
+  width: 100%;
+  background-color: transparent;
+  box-shadow: none;
+  padding-block: 0.7rem;
+  margin-block: 0.5rem;
+  border: 3px solid $info-color;
+  border-radius: 5px;
+
+  &:hover{
+    background-color: $info-color;
+    color: #fff;
+  }
+
+}

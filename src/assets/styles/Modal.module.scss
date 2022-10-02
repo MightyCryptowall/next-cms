@@ -1,0 +1,45 @@
+@import "styles/definitions.scss";
+
+.screen{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 3;
+  background-color: rgba(0,0,0,0.5);
+  .container{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    width: 100vw;
+    .modal{
+      margin-top: 5rem;
+      min-width: 30vw;
+      min-height: 30vh;
+      background-color: $gray-color;
+      padding: 1rem;
+      
+      .icons-list{
+        display: flex;
+        list-style: none;
+        justify-content: flex-start;
+        margin: 0;
+        padding: 0;
+        gap: 0.7rem;
+
+        .icon-container{
+          aspect-ratio: 1;
+          width: 5rem;
+          border-radius: 0.3rem;
+          overflow: hidden;
+          cursor: pointer;
+          &:hover{
+            opacity: 0.7;
+          }
+          
+        }
+      }
+    }
+  }
+}

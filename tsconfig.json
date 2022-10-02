@@ -1,5 +1,17 @@
+// tsconfig.json
 {
   "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "src/*": ["./src/*"],
+      "lib/*": ["./src/lib/*"],
+      "assets/*": ["./src/assets/*"],
+      "styles/*": ["./src/assets/styles/*"],
+      "components/*": ["./src/components/*"],
+      "sections/*": ["./src/sections/*"],
+      "pages/*": ["./src/pages/*"],
+      "locales/*": ["./src/locales/*"],
+    },
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
@@ -15,6 +27,13 @@
     "jsx": "preserve",
     "incremental": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "next-env.d.ts",
+    "pages/**/*",
+    "src/**/*"
+  ],
   "exclude": ["node_modules"]
 }
