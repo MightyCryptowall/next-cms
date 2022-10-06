@@ -12,6 +12,7 @@ interface AccordionProps {
   detail: string;
   arrow?: boolean;
   className?: string;
+  editorMode?: boolean;
   openAccordionModal: (position: number, title: string, detail: string) => void;
   onDelete?: (position: number) => void;
 }
@@ -24,25 +25,28 @@ const Accordion: React.FC<AccordionProps> = ({
   arrow = false,
   className,
   openAccordionModal,
+  editorMode = false,
   onDelete = () => {},
 }) => {
   const [active, setActive] = useState<boolean>(false);
-  const [{ opacity }, drag, preview] = useDrag(() => ({
-    type: "accordion",
-    item: {
-      id,
-      component: "accordion",
-      action: "reposition",
-      heading:heading,
-      detail:detail,
-      position:position,
-    },
-    collect: (monitor) => ({
-      opacity: monitor.isDragging() ? 0.4 : 1,
+  const [{ opacity }, drag, preview] = useDrag(
+    () => ({
+      type: "accordion",
+      item: {
+        id,
+        component: "accordion",
+        action: "reposition",
+        heading: heading,
+        detail: detail,
+        position: position,
+      },
+      collect: (monitor) => ({
+        opacity: monitor.isDragging() ? 0.4 : 1,
+      }),
+      end: (item, monitor) => {},
     }),
-    end: (item, monitor) => {
-    },
-  }),[heading]);
+    [heading]
+  );
   const detailStatus = (status: boolean) => {
     if (status) {
       return [styles["detail"], styles["active"]].join(" ");
@@ -58,7 +62,6 @@ const Accordion: React.FC<AccordionProps> = ({
     return [styles["accordion"], className].join(" ");
   };
 
-
   // isArrow
   const controlStyle = (status: boolean) => {
     if (status) {
@@ -67,28 +70,28 @@ const Accordion: React.FC<AccordionProps> = ({
     return styles["control"];
   };
 
-  
-
   return (
     <div className={[styles["accordion-wrapper"], id].join(" ")} ref={preview}>
-      <div className={styles["editor-controls"]}>
-        <button
-          onClick={() => openAccordionModal(position, heading, detail)}
-          ref={drag}
-          type="button"
-        >
-          <TbGripHorizontal />
-        </button>
-        <button
-          onClick={() => openAccordionModal(position, heading, detail)}
-          type="button"
-        >
-          Edit
-        </button>
-        <button onClick={() => onDelete(position)} type="button">
-          Delete
-        </button>
-      </div>
+      {!editorMode && (
+        <div className={styles["editor-controls"]}>
+          <button
+            onClick={() => openAccordionModal(position, heading, detail)}
+            ref={drag}
+            type="button"
+          >
+            <TbGripHorizontal />
+          </button>
+          <button
+            onClick={() => openAccordionModal(position, heading, detail)}
+            type="button"
+          >
+            Edit
+          </button>
+          <button onClick={() => onDelete(position)} type="button">
+            Delete
+          </button>
+        </div>
+      )}
       <div
         className={accordionStyle(active)}
         onClick={() => {

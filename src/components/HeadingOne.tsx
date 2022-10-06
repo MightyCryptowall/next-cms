@@ -10,6 +10,7 @@ interface HeadingOneProps {
   position: number;
   heading: string;
   className?: string;
+  editorMode?: boolean;
   openHeadingOneModal: (position: number, title: string) => void;
   onDelete?: (position: number) => void;
 }
@@ -20,24 +21,27 @@ const HeadingOne: React.FC<HeadingOneProps> = ({
   heading,
   className,
   openHeadingOneModal,
+  editorMode = false,
   onDelete = () => {},
 }) => {
   const [active, setActive] = useState<boolean>(false);
-  const [{ opacity }, drag, preview] = useDrag(() => ({
-    type: "headingOne",
-    item: {
-      id,
-      component: "headingOne",
-      action: "reposition",
-      heading:heading,
-      position:position,
-    },
-    collect: (monitor) => ({
-      opacity: monitor.isDragging() ? 0.4 : 1,
+  const [{ opacity }, drag, preview] = useDrag(
+    () => ({
+      type: "headingOne",
+      item: {
+        id,
+        component: "headingOne",
+        action: "reposition",
+        heading: heading,
+        position: position,
+      },
+      collect: (monitor) => ({
+        opacity: monitor.isDragging() ? 0.4 : 1,
+      }),
+      end: (item, monitor) => {},
     }),
-    end: (item, monitor) => {
-    },
-  }),[heading]);
+    [heading]
+  );
   const detailStatus = (status: boolean) => {
     if (status) {
       return [styles["detail"], styles["active"]].join(" ");
@@ -53,7 +57,6 @@ const HeadingOne: React.FC<HeadingOneProps> = ({
     return [styles["headingOne"], className].join(" ");
   };
 
-
   // isArrow
   const controlStyle = (status: boolean) => {
     if (status) {
@@ -62,28 +65,28 @@ const HeadingOne: React.FC<HeadingOneProps> = ({
     return styles["control"];
   };
 
-  
-
   return (
     <div className={[styles["heading-wrapper"], id].join(" ")} ref={preview}>
-      <div className={styles["editor-controls"]}>
-        <button
-          onClick={() => openHeadingOneModal(position, heading)}
-          ref={drag}
-          type="button"
-        >
-          <TbGripHorizontal />
-        </button>
-        <button
-          onClick={() => openHeadingOneModal(position, heading)}
-          type="button"
-        >
-          Edit
-        </button>
-        <button onClick={() => onDelete(position)} type="button">
-          Delete
-        </button>
-      </div>
+      {!editorMode && (
+        <div className={styles["editor-controls"]}>
+          <button
+            onClick={() => openHeadingOneModal(position, heading)}
+            ref={drag}
+            type="button"
+          >
+            <TbGripHorizontal />
+          </button>
+          <button
+            onClick={() => openHeadingOneModal(position, heading)}
+            type="button"
+          >
+            Edit
+          </button>
+          <button onClick={() => onDelete(position)} type="button">
+            Delete
+          </button>
+        </div>
+      )}
       <h1
         className={headingOneStyle(active)}
         onClick={() => {

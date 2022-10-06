@@ -226,7 +226,7 @@ const PageEditor: React.FC<PageEditorProps> = () => {
     }
   };
 
-  const handleSave = (position: number, title: string, detail: string) => {
+  const handleAccordionSave = (position: number, title: string, detail: string) => {
     const newComponents = components.map((item) => {
       if (position == item.position) {
         return {
@@ -269,16 +269,29 @@ const PageEditor: React.FC<PageEditorProps> = () => {
     });
   };
 
+
+  const onSave = () => {
+    localStorage.setItem("page-data", JSON.stringify(components));
+  }
+
+  useEffect(() => {
+    const storedData = localStorage.getItem("page-data");
+    if(storedData){
+      const storedComponents = JSON.parse(storedData);
+      setComponents(storedComponents);
+    }
+  },[])
+  
   return (
     <DndProvider backend={HTML5Backend}>
       <div className={styles["container"]}>
         {/* <Modal /> */}
-        <SideBar />
+        <SideBar onSave={onSave} />
         <AccordionModal
           position={accordionModal.position}
           title={accordionModal.title}
           detail={accordionModal.detail}
-          onSave={handleSave}
+          onSave={handleAccordionSave}
           active={accordionModal.open}
           onCancel={handleAccordionEditCancel}
         />

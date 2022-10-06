@@ -3,7 +3,7 @@ import styles from "styles/SideBar.module.scss";
 import DraggableComponent from "./DraggableComponent";
 
 interface SideBarProps {
-  
+ onSave: () => void;
 }
 
 const components = [
@@ -29,7 +29,7 @@ const components = [
   },
 ]
  
-const SideBar: React.FC<SideBarProps> = () => {
+const SideBar: React.FC<SideBarProps> = ({onSave}) => {
   return (
     <div className={styles["sidebar-container"]}>
       <div className={styles["sidebar"]}>
@@ -43,6 +43,7 @@ const SideBar: React.FC<SideBarProps> = () => {
             ))
           }
         </div>
+        <button className={styles["save-button"]} type="button" onClick={onSave}>Save</button>
       </div>
     </div>
   );
