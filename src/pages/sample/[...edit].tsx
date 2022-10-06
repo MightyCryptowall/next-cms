@@ -11,8 +11,10 @@ import AccordionModal from "src/components/modals/AccordionModal";
 import AddMoreBox from "src/components/AddMoreBox";
 import SearchBox from "src/components/SearchBox";
 import SideBar from "src/components/SideBar";
-import HeadingOne from "src/components/HeadingOne";
 import HeadingModal from "src/components/modals/HeadingModal";
+import HeadingOne from "src/components/HeadingOne";
+import HeadingTwo from "src/components/HeadingTwo";
+import HeadingThree from "src/components/HeadingThree";
 
 interface PageEditorProps {}
 
@@ -53,7 +55,7 @@ const PageEditor: React.FC<PageEditorProps> = () => {
   });
 
   const addNewComponent = (item: any) => {
-    console.log({item});
+    console.log({ item });
     setComponents((preState) => {
       const newComponents = preState as any[];
       let component: ComponentProps = {
@@ -66,14 +68,18 @@ const PageEditor: React.FC<PageEditorProps> = () => {
       if (item.name == "accordion") {
         component = {
           id: Date.now().toString(),
-          heading: `Sample Heading ${newComponents.length + 1}`,
+          heading: `Sample Accordion ${newComponents.length + 1}`,
           detail: `This is the sample detail ${newComponents.length}. I am making this text really really long.`,
           componentType: item.name,
           position: newComponents.length,
         };
       }
 
-      if (item.name == "headingOne") {
+      if (
+        item.name == "headingOne" ||
+        item.name == "headingTwo" ||
+        item.name == "headingThree"
+      ) {
         component = {
           id: Date.now().toString(),
           heading: `Sample Heading ${newComponents.length + 1}`,
@@ -101,10 +107,7 @@ const PageEditor: React.FC<PageEditorProps> = () => {
     setAccordion(currentAccordionModal);
   };
 
-  const openHeadingModal = (
-    position: number,
-    title: string,
-  ) => {
+  const openHeadingModal = (position: number, title: string) => {
     const currentHeadingModal = { position, title, open: true };
     setHeading(currentHeadingModal);
   };
@@ -305,17 +308,33 @@ const PageEditor: React.FC<PageEditorProps> = () => {
                   openAccordionModal={openAccordionModal}
                 />
               )}
-              {
-                item.componentType == "headingOne" && (
-                  <HeadingOne
+              {item.componentType == "headingOne" && (
+                <HeadingOne
                   id={item.id}
                   position={item.position}
                   heading={item.heading}
                   onDelete={handleOnDelete}
                   openHeadingOneModal={openHeadingModal}
                 />
-                )
-              }
+              )}
+              {item.componentType == "headingTwo" && (
+                <HeadingTwo
+                  id={item.id}
+                  position={item.position}
+                  heading={item.heading}
+                  onDelete={handleOnDelete}
+                  openHeadingTwoModal={openHeadingModal}
+                />
+              )}
+              {item.componentType == "headingThree" && (
+                <HeadingThree
+                  id={item.id}
+                  position={item.position}
+                  heading={item.heading}
+                  onDelete={handleOnDelete}
+                  openHeadingThreeModal={openHeadingModal}
+                />
+              )}
             </div>
           ))}
           <AddMoreBox addNewComponent={addNewComponent} />

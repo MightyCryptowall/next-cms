@@ -1,6 +1,6 @@
 @import "styles/definitions.scss";
 
-.heading-one-wrapper{
+.heading-wrapper{
   position: relative;
   cursor: pointer;
   // margin-top: 1.5rem;
@@ -30,7 +30,7 @@
       // display: none;
     }
   }
-  h1 {
+  h1, h2, h3 {
     cursor: pointer;
     margin-block: 0;
   }

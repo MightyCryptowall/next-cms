@@ -5,21 +5,21 @@ import { useState } from "react";
 import { TbGripHorizontal } from "react-icons/tb";
 import { useDrag } from "react-dnd";
 
-interface HeadingOneProps {
+interface HeadingTwoProps {
   id: string;
   position: number;
   heading: string;
   className?: string;
-  openHeadingOneModal: (position: number, title: string) => void;
+  openHeadingTwoModal: (position: number, title: string) => void;
   onDelete?: (position: number) => void;
 }
 
-const HeadingOne: React.FC<HeadingOneProps> = ({
+const HeadingTwo: React.FC<HeadingTwoProps> = ({
   id,
   position,
   heading,
   className,
-  openHeadingOneModal,
+  openHeadingTwoModal,
   onDelete = () => {},
 }) => {
   const [active, setActive] = useState<boolean>(false);
@@ -68,14 +68,14 @@ const HeadingOne: React.FC<HeadingOneProps> = ({
     <div className={[styles["heading-wrapper"], id].join(" ")} ref={preview}>
       <div className={styles["editor-controls"]}>
         <button
-          onClick={() => openHeadingOneModal(position, heading)}
+          onClick={() => openHeadingTwoModal(position, heading)}
           ref={drag}
           type="button"
         >
           <TbGripHorizontal />
         </button>
         <button
-          onClick={() => openHeadingOneModal(position, heading)}
+          onClick={() => openHeadingTwoModal(position, heading)}
           type="button"
         >
           Edit
@@ -84,16 +84,16 @@ const HeadingOne: React.FC<HeadingOneProps> = ({
           Delete
         </button>
       </div>
-      <h1
+      <h2
         className={headingOneStyle(active)}
         onClick={() => {
           setActive(!active);
         }}
       >
         {heading}
-      </h1>
+      </h2>
     </div>
   );
 };
 
-export default HeadingOne;
+export default HeadingTwo;
