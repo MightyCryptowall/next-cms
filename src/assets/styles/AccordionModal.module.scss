@@ -1,0 +1,77 @@
+@import "styles/definitions.scss";
+
+.container {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  z-index: 500;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  pointer-events: none;
+  .accordion-modal {
+    width: 30vw;
+    height: auto;
+    margin-top: 0;
+    background-color: $white-color;
+    border-radius: 0.5rem;
+    transition: margin 1s ease;
+    @include shadow;
+  }
+
+  &.active {
+    opacity: 1;
+    pointer-events: unset;
+
+    .accordion-modal {
+      margin-top: 10vh;
+      display: flex;
+      height: max-content;
+      flex-direction: column;
+      padding: 1rem;
+      gap: 0.5rem;
+
+      h3{
+        margin: 0;
+      }
+
+      input,
+      textarea {
+        border: 1px solid $dark-color;
+        box-shadow: none;
+        box-shadow: none;
+        border-radius: 0.3rem;
+        padding: 0.5rem;
+        font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+          Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+        &:focus-visible {
+          outline: none;
+        }
+      }
+
+      .controls {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        gap: 0.5rem;
+        button{
+          padding: 0.5rem;
+          border: 0;
+          cursor: pointer;
+          &.save{
+            background-color: $success-color;
+            color: $white-color;
+          }
+          &.cancel{
+            background-color: $gray-color;
+            color: $dark-color;
+          }
+          &:hover{
+            opacity: 0.8;
+          }
+        }
+      }
+    }
+  }
+}

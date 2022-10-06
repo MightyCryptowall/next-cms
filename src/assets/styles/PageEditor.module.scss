@@ -1,25 +1,118 @@
 @import "styles/definitions.scss";
 
 .container{
-  margin-top: 3.5rem;
-  margin-inline: 10%;
-  .image-container{
-    @include nextjs-responsive-image-container;
+  // margin-top: 3.5rem;
+  // margin-inline: 10%;
+  display: flex;
+  width: 100%;
+
+
+  
+
+  .editor{
+    width: 80vw;
+    height: 100vh;
+    padding: 1rem;
+    overflow-y: auto;
+    .image-container{
+      @include nextjs-responsive-image-container;
+      margin-bottom: 1rem;
+    }
   }
 }
 
 .add-more-box{
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100%;
   background-color: transparent;
   box-shadow: none;
-  padding-block: 0.7rem;
+  padding-block: 3rem;
   margin-block: 0.5rem;
-  border: 3px solid $info-color;
+  border: 2.5px dashed $success-color;
   border-radius: 5px;
 
-  &:hover{
-    background-color: $info-color;
+  &.drop{
+    background-color: $success-color;
     color: #fff;
   }
 
+}
+
+.sidebar-container{
+  width: 20vw;
+  height: 100vh;
+  background-color: #AAA;
+  overflow-y: auto;
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+    margin: 1rem;
+    width: auto;
+    justify-content:center;
+
+    .component-list{
+      display: flex;
+      flex-direction: column;
+      margin-top: 1rem;
+      height: 80vh;
+      // padding: 1rem;
+      overflow-y: auto;
+    }
+    
+  }
+  
+}
+
+.search-box{
+  display: flex;
+  width: 100%;
+  background-color: $white-color;
+  padding:0.3rem;
+  border-radius: 0.5rem;
+  input{
+    background-color: transparent;
+    border: 0;
+    width: 90%;
+    &:focus, &:focus-visible{
+      border:0;
+      box-shadow: none;
+      outline: none;
+    }
+  }
+  button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $primary-color;
+    color: $white-color;
+    border: 0;
+    width: 10%;
+    aspect-ratio: 1;
+    // height: 10%;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+}
+
+.draggable-component{
+  width: 100%;
+  cursor: pointer;
+  background-color: $white-color;
+  display: flex;
+  align-items: center;
+  // border-radius: 1rem;
+  overflow: hidden;
+  
+  .icon-container{
+    width: 30%;
+    aspect-ratio: 1;
+    // border-radius: 1rem;
+    overflow: hidden;
+  }
+
+  h5{
+    color: #555;
+  }
 }
