@@ -2,21 +2,29 @@ import Image from "next/image";
 import { useDrag } from "react-dnd";
 import styles from "styles/DraggableComponent.module.scss";
 
-interface DraggableComponentProps {}
+interface DraggableComponentProps {
+  title: string,
+  icon: string,
+  name: string
+}
 
-const DraggableComponent: React.FC<DraggableComponentProps> = () => {
+const DraggableComponent: React.FC<DraggableComponentProps> = ({title, icon, name}) => {
   const [{ opacity }, drag] = useDrag(
     () => ({
-      type: "box",
+      type: name,
       options: {
         dropEffect: "copy",
       },
       item: {
-        component: "accordion component",
+        name: name,
+        // component: name,
+        action: "new",
       },
       collect: (monitor) => ({
         opacity: monitor.isDragging() ? 0.4 : 1,
       }),
+      end: (item, monitor) => {
+      }
     }),
     []
   );
@@ -24,13 +32,13 @@ const DraggableComponent: React.FC<DraggableComponentProps> = () => {
     <div ref={drag} className={styles["draggable-component"]}>
       <div className={styles["icon-container"]}>
         <Image
-          src="https://sbn-bucket.s3.ap-south-1.amazonaws.com/accordion-icon.png"
+          src={icon}
           width="100"
           height="100"
           alt="accordion icon"
         />
       </div>
-      <h5>Accordion Component</h5>
+      <h5>{title}</h5>
     </div>
   );
 };

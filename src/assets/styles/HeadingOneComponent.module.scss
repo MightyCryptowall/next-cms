@@ -1,0 +1,45 @@
+@import "styles/definitions.scss";
+
+.heading-one-wrapper{
+  position: relative;
+  cursor: pointer;
+  // margin-top: 1.5rem;
+  z-index: 1;
+  .editor-controls{
+    position: absolute;
+    top: 0;
+    margin-top: 0;
+    display: flex;
+    z-index: 1;
+    opacity: 0;
+    transition: all 1s ease;
+    @include shadow;
+    button{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: $white-color;
+      border: 0;
+      padding: 0.5rem;
+      cursor: pointer;
+      &:hover{
+        background-color: $primary-color;
+        color: $white-color;
+      }
+      
+      // display: none;
+    }
+  }
+  h1 {
+    cursor: pointer;
+    margin-block: 0;
+  }
+  &:hover{
+    z-index: 2;
+    .editor-controls{
+      margin-top: -2rem;
+      opacity: 1;
+    }
+  }
+}
+

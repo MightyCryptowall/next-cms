@@ -3,7 +3,7 @@ import { useDrop } from "react-dnd";
 import styles from "styles/AddMoreBox.module.scss";
 
 interface AddMoreBoxProps {
-  updateComponents: () => void;
+  addNewComponent: (item:any) => void;
   betweenCompnents?: boolean;
 }
 
@@ -15,15 +15,16 @@ const style: CSSProperties = {
   textAlign: "center",
 };
  
-const AddMoreBox: React.FC<AddMoreBoxProps> = ({ updateComponents, betweenCompnents = false }) => {
+const AddMoreBox: React.FC<AddMoreBoxProps> = ({ addNewComponent, betweenCompnents = false }) => {
   const [{ isActive }, drop] = useDrop(() => ({
-    accept: "box",
-    collect: (monitor) => ({
+    accept: ["box", "accordion", "headingOne", "headingTwo", "headingThree"],
+    collect: (monitor) => {
+      return ({
       isActive: monitor.canDrop() && monitor.isOver(),
-    }),
+    })},
     drop: (item, monitor) => {
-      console.log(monitor.getItem());
-      updateComponents();
+      console.log(item);
+      addNewComponent(item);
     },
   }));
   return (
