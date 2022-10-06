@@ -4,17 +4,17 @@ import { FaChevronRight, FaChevronDown } from "react-icons/fa";
 import { useState } from "react";
 
 interface AccordionProps {
-  id: number;
+  position: number;
   heading: string;
   detail: string;
   arrow?: boolean;
   className?: string;
-  openAccordionModal:(id: number, title: string, detail: string) => void;
-  onDelete?: (id:number) => void;
+  openAccordionModal:(position: number, title: string, detail: string) => void;
+  onDelete?: (position:number) => void;
 }
 
 const Accordion: React.FC<AccordionProps> = ({
-  id,
+  position,
   heading,
   detail,
   arrow = false,
@@ -23,7 +23,7 @@ const Accordion: React.FC<AccordionProps> = ({
   onDelete = () => {},
 }) => {
   const [active, setActive] = useState<boolean>(false);
-  console.log(id);
+  console.log(position);
   const detailStatus = (status: boolean) => {
     if (status) {
       return [styles["detail"], styles["active"]].join(" ");
@@ -50,8 +50,8 @@ const Accordion: React.FC<AccordionProps> = ({
   return (
     <div className={styles["accordion-wrapper"]}>
       <div className={styles["editor-controls"]}>
-        <button onClick={() => openAccordionModal(id,  heading, detail)} type="button">Edit</button>
-        <button onClick={() => onDelete(id)} type="button">Delete</button>
+        <button onClick={() => openAccordionModal(position,  heading, detail)} type="button">Edit</button>
+        <button onClick={() => onDelete(position)} type="button">Delete</button>
       </div>
       <div
         className={accordionStyle(active)}

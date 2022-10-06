@@ -1,0 +1,22 @@
+@import "styles/definitions.scss";
+
+.draggable-component{
+  width: 100%;
+  cursor: pointer;
+  background-color: $white-color;
+  display: flex;
+  align-items: center;
+  // border-radius: 1rem;
+  overflow: hidden;
+  
+  .icon-container{
+    width: 30%;
+    aspect-ratio: 1;
+    // border-radius: 1rem;
+    overflow: hidden;
+  }
+
+  h5{
+    color: #555;
+  }
+}

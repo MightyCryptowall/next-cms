@@ -1,0 +1,32 @@
+@import "styles/definitions.scss";
+
+.search-box{
+  display: flex;
+  width: 100%;
+  background-color: $white-color;
+  padding:0.3rem;
+  border-radius: 0.5rem;
+  input{
+    background-color: transparent;
+    border: 0;
+    width: 90%;
+    &:focus, &:focus-visible{
+      border:0;
+      box-shadow: none;
+      outline: none;
+    }
+  }
+  button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $primary-color;
+    color: $white-color;
+    border: 0;
+    width: 10%;
+    aspect-ratio: 1;
+    // height: 10%;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+}

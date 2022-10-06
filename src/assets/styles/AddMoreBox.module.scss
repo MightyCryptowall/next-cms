@@ -1,0 +1,40 @@
+@import "styles/definitions.scss";
+
+.add-more-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  background-color: transparent;
+  box-shadow: none;
+  padding-block: 3rem;
+  // margin-block: 0.5rem;
+  border: 2.5px dashed $success-color;
+  border-radius: 5px;
+  transition: all 1s ease;
+  margin-top: 1.5rem;
+
+
+  &.between-components{
+    height: 1.5rem;
+    margin-top: 0;
+    width: 100%;
+    padding: 0rem;
+    border: 0rem;
+    opacity: 0;
+  }
+
+  &.drop {
+    &.between-components{
+      background-color: $success-color;
+    color: #fff;
+    height: unset;
+    padding-block: 3rem;
+    border: 2.5px dashed $success-color;
+    opacity: 1;
+    }
+    
+  }
+
+  
+}

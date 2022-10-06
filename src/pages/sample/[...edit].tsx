@@ -8,105 +8,27 @@ import { CSSProperties, FC, useState } from "react";
 import { useDrop } from "react-dnd";
 import Accordion from "src/components/Accordion";
 import AccordionModal from "src/components/modals/AccordionModal";
+import AddMoreBox from "src/components/AddMoreBox";
+import SearchBox from "src/components/SearchBox";
+import SideBar from "src/components/SideBar";
 
 interface PageEditorProps {}
 
-interface AddMoreBoxProps {
-  updateComponents: () => void;
-}
 
-interface SearchBoxProps {}
-interface SidbarProps {}
-interface DraggableComponentProps {}
+
+
+
 interface HeaderComponentProps {}
 
-const style: CSSProperties = {
-  // border: '1px solid gray',
-  // height: '15rem',
-  width: "100%",
-  // padding: '2rem',
-  textAlign: "center",
-};
 
-const AddMoreBox: React.FC<AddMoreBoxProps> = ({ updateComponents }) => {
-  const [{ isActive }, drop] = useDrop(() => ({
-    accept: "box",
-    collect: (monitor) => ({
-      isActive: monitor.canDrop() && monitor.isOver(),
-    }),
-    drop: (item, monitor) => {
-      console.log(monitor.getItem());
-      updateComponents();
-    },
-  }));
-  return (
-    <div ref={drop} style={style}>
-      <div
-        className={[
-          styles["add-more-box"],
-          isActive ? styles["drop"] : "",
-        ].join(" ")}
-      >
-        Add More
-      </div>
-    </div>
-  );
-};
 
-const SearchBox: React.FC<SearchBoxProps> = () => {
-  return (
-    <div className={styles["search-box"]}>
-      <input type="text" />
-      <button>
-        <FaSearch />
-      </button>
-    </div>
-  );
-};
 
-const Sidbar: React.FC<SidbarProps> = () => {
-  return (
-    <div className={styles["sidebar-container"]}>
-      <div className={styles["sidebar"]}>
-        <SearchBox />
-        <div className={styles["component-list"]}>
-          <DraggableComponent />
-        </div>
-      </div>
-    </div>
-  );
-};
 
-const DraggableComponent: React.FC<DraggableComponentProps> = () => {
-  const [{ opacity }, drag] = useDrag(
-    () => ({
-      type: "box",
-      options: {
-        dropEffect: "copy",
-      },
-      item: {
-        component: "accordion component",
-      },
-      collect: (monitor) => ({
-        opacity: monitor.isDragging() ? 0.4 : 1,
-      }),
-    }),
-    []
-  );
-  return (
-    <div ref={drag} className={styles["draggable-component"]}>
-      <div className={styles["icon-container"]}>
-        <Image
-          src="https://sbn-bucket.s3.ap-south-1.amazonaws.com/accordion-icon.png"
-          width="100"
-          height="100"
-          alt="accordion icon"
-        />
-      </div>
-      <h5>Accordion Component</h5>
-    </div>
-  );
-};
+
+
+
+
+
 
 const HeaderComponent: React.FC<HeaderComponentProps> = () => {
   return (
@@ -142,16 +64,16 @@ const PageEditor: React.FC<PageEditorProps> = () => {
     setComponents((preState) => {
       const newComponents = preState;
       newComponents.push({
-        heading: `Sample Heading ${newComponents.length}`,
+        heading: `Sample Heading ${newComponents[newComponents.length - 1]?.position + 1}`,
         detail: `This is the sample detail ${newComponents.length}. I am making this text really really long.`,
-        position: newComponents.length + 1,
+        position: newComponents[newComponents.length - 1].position + 1,
       });
       return [...newComponents];
     });
   };
 
-  const handleOnDelete = (id: number) => {
-    const newList = [...components.filter((item, index) => index != id)];
+  const handleOnDelete = (position: number) => {
+    const newList = [...components.filter((item) => item.position != position)];
     console.log(newList);
     setComponents([...newList]);
   };
@@ -196,7 +118,7 @@ const PageEditor: React.FC<PageEditorProps> = () => {
     <DndProvider backend={HTML5Backend}>
       <div className={styles["container"]}>
         {/* <Modal /> */}
-        <Sidbar />
+        <SideBar />
         <AccordionModal
           position={accordionModal.position}
           title={accordionModal.title}
@@ -209,7 +131,7 @@ const PageEditor: React.FC<PageEditorProps> = () => {
           <HeaderComponent />
           {components.map((item, index) => (
             <Accordion
-              id={index + 1}
+              position={item.position}
               heading={item.heading}
               detail={item.detail}
               onDelete={handleOnDelete}
