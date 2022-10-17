@@ -17,6 +17,7 @@ import HeadingTwo from "src/components/HeadingTwo";
 import HeadingThree from "src/components/HeadingThree";
 import dynamic from "next/dynamic";
 import { RichTextComponentProps } from "components/RichTextComponent";
+import { ContentState, convertFromRaw, convertToRaw, EditorState, RawDraftContentState } from "draft-js";
 
 interface PageEditorProps {}
 
@@ -26,6 +27,8 @@ const RichTextComponent = dynamic<RichTextComponentProps>(
   () => import("components/RichTextComponent"),
   { ssr: false }
 );
+
+const content = {"entityMap":{},"blocks":[{"key":"637gr","text":"Initialized from content state.","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}]};
 
 const HeaderComponent: React.FC<HeaderComponentProps> = () => {
   return (
@@ -38,12 +41,13 @@ const HeaderComponent: React.FC<HeaderComponentProps> = () => {
     </div>
   );
 };
-
 interface ComponentProps {
   id: string;
   componentType: string;
   position: number;
   heading?: string;
+  editorState?: EditorState;
+  contentState?: RawDraftContentState;
   detail?: string;
 }
 
@@ -263,6 +267,7 @@ const PageEditor: React.FC<PageEditorProps> = () => {
       open: false,
     });
   };
+
   const handleHeadingSave = (position: number, title: string) => {
     const newComponents = components.map((item) => {
       if (position == item.position) {
@@ -289,10 +294,34 @@ const PageEditor: React.FC<PageEditorProps> = () => {
     localStorage.setItem("page-data", JSON.stringify(components));
   }
 
+  const updateRichTextContent = (editorState: EditorState, position: number) => {
+    const newComponents = components.map((item) => {
+      if (position == item.position) {
+        return {
+          ...item,
+          contentState: convertToRaw(editorState.getCurrentContent()),
+          editorState,
+          position
+        };
+      } else {
+        return item;
+      }
+    });
+    setComponents(newComponents);
+  }
+
   useEffect(() => {
     const storedData = localStorage.getItem("page-data");
     if(storedData){
-      const storedComponents = JSON.parse(storedData);
+      let storedComponents = JSON.parse(storedData) as ComponentProps[];
+      storedComponents = storedComponents.map(item => {
+        if(item.componentType == "richText"){
+          item.editorState = EditorState.createWithContent(convertFromRaw(item.contentState ? item.contentState : content));
+          return item;
+        }else{
+          return item;
+        }
+      }) as ComponentProps[];
       setComponents(storedComponents);
     }
   },[])
@@ -366,6 +395,8 @@ const PageEditor: React.FC<PageEditorProps> = () => {
               {item.componentType == "richText" && (
                 <RichTextComponent
                   id={item.id}
+                  editorState={item.editorState ? item.editorState : EditorState.createEmpty()}
+                  updateRichTextContent={updateRichTextContent}
                   position={item.position}
                 />
               )}

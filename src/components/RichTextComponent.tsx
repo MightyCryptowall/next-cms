@@ -1,20 +1,24 @@
+import { convertFromRaw, convertToRaw, EditorState, RawDraftContentState } from "draft-js";
+import { useEffect, useState } from "react";
 import { useDrag } from "react-dnd";
 import { Editor } from "react-draft-wysiwyg";
 
 export interface RichTextComponentProps {
   id: string;
   position: number;
+  editorState: EditorState,
+  updateRichTextContent: (content: EditorState, position: number) => void;
   className?: string;
   editorMode?: boolean;
 }
 
-const RichTextComponent: React.FC<RichTextComponentProps> = ({id, position}) => {
+const RichTextComponent: React.FC<RichTextComponentProps> = ({id, editorState, updateRichTextContent, position}) => {
   const [drag, preview] = useDrag(
     () => ({
-      type: "accordion",
+      type: "richText",
       item: {
         id,
-        component: "accordion",
+        component: "richText",
         action: "reposition",
         // heading: heading,
         // detail: detail,
@@ -23,9 +27,14 @@ const RichTextComponent: React.FC<RichTextComponentProps> = ({id, position}) => 
     }),
     []
   );
+  const onEditorStateChange = (newEditorState:EditorState) => {
+    updateRichTextContent(newEditorState,position);
+  };
   return (
     <div>
       <Editor
+        editorState={editorState}
+        onEditorStateChange={onEditorStateChange}
         toolbar={{
           options: [
             "inline",
