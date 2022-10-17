@@ -27,6 +27,11 @@ const components = [
     icon: "https://sbn-bucket.s3.ap-south-1.amazonaws.com/accordion-icon.png",
     name: "accordion"
   },
+  {
+    title: "Rich Text Component",
+    icon: "/images/rich-text-icon.png",
+    name: "richText"
+  },
 ]
  
 const SideBar: React.FC<SideBarProps> = ({onSave}) => {

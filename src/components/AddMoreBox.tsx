@@ -17,7 +17,7 @@ const style: CSSProperties = {
  
 const AddMoreBox: React.FC<AddMoreBoxProps> = ({ addNewComponent, betweenCompnents = false }) => {
   const [{ isActive }, drop] = useDrop(() => ({
-    accept: ["box", "accordion", "headingOne", "headingTwo", "headingThree"],
+    accept: ["box", "accordion", "headingOne", "headingTwo", "headingThree","richText"],
     collect: (monitor) => {
       return ({
       isActive: monitor.canDrop() && monitor.isOver(),

@@ -15,10 +15,17 @@ import HeadingModal from "src/components/modals/HeadingModal";
 import HeadingOne from "src/components/HeadingOne";
 import HeadingTwo from "src/components/HeadingTwo";
 import HeadingThree from "src/components/HeadingThree";
+import dynamic from "next/dynamic";
+import { RichTextComponentProps } from "components/RichTextComponent";
 
 interface PageEditorProps {}
 
 interface HeaderComponentProps {}
+
+const RichTextComponent = dynamic<RichTextComponentProps>(
+  () => import("components/RichTextComponent"),
+  { ssr: false }
+);
 
 const HeaderComponent: React.FC<HeaderComponentProps> = () => {
   return (
@@ -34,9 +41,9 @@ const HeaderComponent: React.FC<HeaderComponentProps> = () => {
 
 interface ComponentProps {
   id: string;
-  heading: string;
   componentType: string;
   position: number;
+  heading?: string;
   detail?: string;
 }
 
@@ -83,6 +90,14 @@ const PageEditor: React.FC<PageEditorProps> = () => {
         component = {
           id: Date.now().toString(),
           heading: `Sample Heading ${newComponents.length + 1}`,
+          componentType: item.name,
+          position: newComponents.length,
+        };
+      }
+
+      if (item.name == "richText") {
+        component = {
+          id: Date.now().toString(),
           componentType: item.name,
           position: newComponents.length,
         };
@@ -315,7 +330,7 @@ const PageEditor: React.FC<PageEditorProps> = () => {
                 <Accordion
                   id={item.id}
                   position={item.position}
-                  heading={item.heading}
+                  heading={item.heading ? item.heading : ""}
                   detail={item.detail ? item.detail : ""}
                   onDelete={handleOnDelete}
                   openAccordionModal={openAccordionModal}
@@ -325,7 +340,7 @@ const PageEditor: React.FC<PageEditorProps> = () => {
                 <HeadingOne
                   id={item.id}
                   position={item.position}
-                  heading={item.heading}
+                  heading={item.heading ? item.heading : ""}
                   onDelete={handleOnDelete}
                   openHeadingOneModal={openHeadingModal}
                 />
@@ -334,7 +349,7 @@ const PageEditor: React.FC<PageEditorProps> = () => {
                 <HeadingTwo
                   id={item.id}
                   position={item.position}
-                  heading={item.heading}
+                  heading={item.heading ? item.heading : ""}
                   onDelete={handleOnDelete}
                   openHeadingTwoModal={openHeadingModal}
                 />
@@ -343,9 +358,15 @@ const PageEditor: React.FC<PageEditorProps> = () => {
                 <HeadingThree
                   id={item.id}
                   position={item.position}
-                  heading={item.heading}
+                  heading={item.heading ? item.heading : ""}
                   onDelete={handleOnDelete}
                   openHeadingThreeModal={openHeadingModal}
+                />
+              )}
+              {item.componentType == "richText" && (
+                <RichTextComponent
+                  id={item.id}
+                  position={item.position}
                 />
               )}
             </div>

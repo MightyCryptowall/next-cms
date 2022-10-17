@@ -31,6 +31,7 @@ const HeadingOne: React.FC<HeadingOneProps> = ({
       item: {
         id,
         component: "headingOne",
+        name: "headingOne",
         action: "reposition",
         heading: heading,
         position: position,
