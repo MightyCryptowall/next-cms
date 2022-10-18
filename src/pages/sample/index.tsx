@@ -15,10 +15,21 @@ import HeadingModal from "src/components/modals/HeadingModal";
 import HeadingOne from "src/components/HeadingOne";
 import HeadingTwo from "src/components/HeadingTwo";
 import HeadingThree from "src/components/HeadingThree";
+import { ComponentProps } from "./[...edit]";
+import { convertFromRaw, EditorState } from "draft-js";
+import dynamic from "next/dynamic";
+import { RichTextComponentProps } from "components/RichTextComponent";
 
 interface PageEditorProps {}
 
 interface HeaderComponentProps {}
+
+const RichTextComponent = dynamic<RichTextComponentProps>(
+  () => import("components/RichTextComponent"),
+  { ssr: false }
+);
+
+const content = {"entityMap":{},"blocks":[{"key":"637gr","text":"Initialized from content state.","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}]};
 
 const HeaderComponent: React.FC<HeaderComponentProps> = () => {
   return (
@@ -31,14 +42,6 @@ const HeaderComponent: React.FC<HeaderComponentProps> = () => {
     </div>
   );
 };
-
-interface ComponentProps {
-  id: string;
-  heading: string;
-  componentType: string;
-  position: number;
-  detail?: string;
-}
 
 const PageEditor: React.FC<PageEditorProps> = () => {
   const [components, setComponents] = useState<Array<ComponentProps> | []>([]);
@@ -277,7 +280,15 @@ const PageEditor: React.FC<PageEditorProps> = () => {
   useEffect(() => {
     const storedData = localStorage.getItem("page-data");
     if(storedData){
-      const storedComponents = JSON.parse(storedData);
+      let storedComponents = JSON.parse(storedData) as ComponentProps[];
+      storedComponents = storedComponents.map(item => {
+        if(item.componentType == "richText"){
+          item.editorState = EditorState.createWithContent(convertFromRaw(item.contentState ? item.contentState : content));
+          return item;
+        }else{
+          return item;
+        }
+      }) as ComponentProps[];
       setComponents(storedComponents);
     }
   },[])
@@ -310,7 +321,7 @@ const PageEditor: React.FC<PageEditorProps> = () => {
                 <Accordion
                   id={item.id}
                   position={item.position}
-                  heading={item.heading}
+                  heading={item.heading ? item.heading : ""}
                   detail={item.detail ? item.detail : ""}
                   onDelete={handleOnDelete}
                   openAccordionModal={openAccordionModal}
@@ -321,7 +332,7 @@ const PageEditor: React.FC<PageEditorProps> = () => {
                 <HeadingOne
                   id={item.id}
                   position={item.position}
-                  heading={item.heading}
+                  heading={item.heading ? item.heading : ""}
                   onDelete={handleOnDelete}
                   openHeadingOneModal={openHeadingModal}
                   editorMode
@@ -331,7 +342,7 @@ const PageEditor: React.FC<PageEditorProps> = () => {
                 <HeadingTwo
                   id={item.id}
                   position={item.position}
-                  heading={item.heading}
+                  heading={item.heading ? item.heading : ""}
                   onDelete={handleOnDelete}
                   openHeadingTwoModal={openHeadingModal}
                   editorMode
@@ -341,10 +352,17 @@ const PageEditor: React.FC<PageEditorProps> = () => {
                 <HeadingThree
                   id={item.id}
                   position={item.position}
-                  heading={item.heading}
+                  heading={item.heading ? item.heading : ""}
                   onDelete={handleOnDelete}
                   openHeadingThreeModal={openHeadingModal}
                   editorMode
+                />
+              )}
+              {item.componentType == "richText" && (
+                <RichTextComponent
+                  id={item.id}
+                  editorState={item.editorState ? item.editorState : EditorState.createEmpty()}
+                  position={item.position}
                 />
               )}
             </div>

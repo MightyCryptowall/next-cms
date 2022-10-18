@@ -41,7 +41,7 @@ const HeaderComponent: React.FC<HeaderComponentProps> = () => {
     </div>
   );
 };
-interface ComponentProps {
+export interface ComponentProps {
   id: string;
   componentType: string;
   position: number;

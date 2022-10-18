@@ -7,7 +7,7 @@ export interface RichTextComponentProps {
   id: string;
   position: number;
   editorState: EditorState,
-  updateRichTextContent: (content: EditorState, position: number) => void;
+  updateRichTextContent?: (content: EditorState, position: number) => void;
   className?: string;
   editorMode?: boolean;
 }
@@ -28,11 +28,14 @@ const RichTextComponent: React.FC<RichTextComponentProps> = ({id, editorState, u
     []
   );
   const onEditorStateChange = (newEditorState:EditorState) => {
-    updateRichTextContent(newEditorState,position);
+    if(updateRichTextContent){
+      updateRichTextContent(newEditorState, position);
+    }
   };
   return (
     <div>
       <Editor
+        toolbarHidden={!updateRichTextContent}
         editorState={editorState}
         onEditorStateChange={onEditorStateChange}
         toolbar={{
